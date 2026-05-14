@@ -1,0 +1,18 @@
+class Problem1 {
+    public static void main(String[] args) {
+
+        String s = "72-101-108-108-111";
+        String[] p = s.split("-");
+
+        StringBuilder sb = new StringBuilder();
+
+        for (String x : p) {
+            if (x.isEmpty()) continue;
+            sb.append((char) Integer.parseInt(x));
+        }
+
+        System.out.print(sb);
+    }
+}
+
+//Output: Hello
