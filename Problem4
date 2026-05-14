@@ -1,0 +1,51 @@
+import java.util.*;
+
+class Problem4 {
+    static boolean valid(String s) {
+        return !s.contains("CC");
+    }
+    public static void main(String[] args) {
+        String start = "CBAB";
+        String end = "ABCB";
+        Queue<String> q = new LinkedList<>();
+        Map<String, Integer> dist = new HashMap<>();
+        Map<String, Integer> ways = new HashMap<>();
+        q.add(start);
+        dist.put(start, 0);
+        ways.put(start, 1);
+        char[] ch = {'A','B','C'};
+        while (!q.isEmpty()) {
+            String cur = q.poll();
+            int d = dist.get(cur);
+            char[] arr = cur.toCharArray();
+            for (int i = 0; i < arr.length; i++) {
+                char old = arr[i];
+                for (char c : ch) {
+                    if (c == old) continue;
+                    arr[i] = c;
+                    String nxt = new String(arr);
+                    if (!valid(nxt)) continue;
+                    if (!dist.containsKey(nxt)) {
+                        dist.put(nxt, d + 1);
+                        ways.put(nxt, ways.get(cur));
+                        q.add(nxt);
+                    }
+                    else if (dist.get(nxt) == d + 1) {
+                        ways.put(nxt, ways.get(nxt) + ways.get(cur));
+                    }
+                }
+                arr[i] = old;
+            }
+        }
+        if (!dist.containsKey(end)) {
+            System.out.print("Length: -1\nPaths: 0");
+        } else {
+            System.out.print("Length: " + dist.get(end) +
+                             "\nPaths: " + ways.get(end));
+        }
+    }
+}
+
+//Output: 
+Length: 2
+Paths: 2
